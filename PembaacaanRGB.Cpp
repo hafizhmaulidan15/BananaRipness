@@ -1,5 +1,3 @@
-
-
 // --- LIBRARIES ---
 #include <Wire.h>
 #include <Adafruit_TCS34725.h>
@@ -36,7 +34,6 @@ unsigned long displayEndTime = 0;
 const unsigned long DISPLAY_DURATION = 5000;
 
 // Variabel IoT Cloud.
-extern String klasifikasi;
 extern int blue;
 extern int green;
 extern int red;
@@ -71,7 +68,7 @@ void setup() {
 
   Serial.print("Mencoba menemukan sensor TCS34725... ");
   if (tcs.begin()) {
-    Serial.println("Sensor TCS34725 Siap (Gain Tetap 16x)");
+    Serial.println("Sensor TCS34725 Siap");
   } else {
     Serial.println("Sensor TCS34725 ERROR! Periksa kabel Anda.");
     while (1); // Berhenti jika sensor tidak ditemukan
@@ -129,12 +126,6 @@ void measureColor() {
     // LED dimatikan tepat setelah membaca
     digitalWrite(TCS_LED, LOW);
 
-    // KIRIM DATA KE ARDUINO IOT CLOUD
-    red = (int)redRaw;
-    green = (int)greenRaw;
-    blue = (int)blueRaw;
-    clear = (int)clearRaw;
-
     // Tampilkan hasil di Serial Monitor
     Serial.print("Pembacaan "); Serial.print(i + 1); Serial.print(": ");
     Serial.print("R:"); Serial.print(redRaw);
@@ -156,7 +147,6 @@ void measureColor() {
   button = false;
 
   Serial.println("\n--- Pembacaan 5x Selesai ---");
-  Serial.println("-----------------------------------\n");
 
   isMeasured = true;
   displayEndTime = millis();
@@ -210,7 +200,6 @@ void showStandby(LiquidCrystal_PCF8574& lcdObj) {
 // ===========================================================================================
 // BAGIAN 6: FUNGSI CALLBACK IoT CLOUD
 // ===========================================================================================
-void onKlasifikasiChange() { }
 void onBlueChange() { }
 void onGreenChange() { }
 void onRedChange() { }
